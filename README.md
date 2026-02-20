@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VC Intelligence Interface
 
-## Getting Started
+A premium, modern SaaS dashboard for Venture Capital associates to discover, track, and enrich startup lead profiles using AI.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Company Discovery**: Search and filter a robust table of companies (powered by TanStack Table).
+- **Company Profiles**: Detailed insights including manual note-taking (persisted locally).
+- **Live Enrichment**: Server-side AI integration parses public site data into summary, keywords, and detected signals.
+- **Lists Management**: Create segmented lists of startup matches and export data formats to CSV/JSON.
+- **Premium UI**: Dribbble-inspired dashboard utilizing `shadcn/ui`, `TailwindCSS` with dark mode support.
+- **Keyboard Optimization**: `Cmd+k` global omni-search navigation focus.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone or download this repository.
+2. Ensure you have Node 18+ installed.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Copy the environment variables:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+5. Add your Grok/Gemini AI API Key to `.env.local` to enable Live Scraping Enrichment:
+   ```
+   AI_API_KEY=your_key_here
+   ```
+6. Run the local development server:
+   ```bash
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
+- Next.js 15 (App Router)
+- React 19
+- Tailwind CSS v4 & shadcn/ui
+- @tanstack/react-table
+- @google/generative-ai
+- cheerio
+- json2csv
 
-## Learn More
+## Screenshots
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*Add screenshots here*
