@@ -1,46 +1,87 @@
-# VC Intelligence Interface
+# 🚀 VC Intelligence Interface
 
-A premium, modern SaaS dashboard for Venture Capital associates to discover, track, and enrich startup lead profiles using AI.
+![App Banner](https://via.placeholder.com/1000x400/1e1e24/6366f1?text=VC+Intelligence+Interface)
 
-## Features
+**VC Intelligence** is a premium, modern SaaS dashboard heavily inspired by bespoke internal tools used by top-tier Venture Capital firms. It allows associates to discover, track, and deeply enrich startup lead profiles using autonomous AI agents.
 
-- **Company Discovery**: Search and filter a robust table of companies (powered by TanStack Table).
-- **Company Profiles**: Detailed insights including manual note-taking (persisted locally).
-- **Live Enrichment**: Server-side AI integration parses public site data into summary, keywords, and detected signals.
-- **Lists Management**: Create segmented lists of startup matches and export data formats to CSV/JSON.
-- **Premium UI**: Dribbble-inspired dashboard utilizing `shadcn/ui`, `TailwindCSS` with dark mode support.
-- **Keyboard Optimization**: `Cmd+k` global omni-search navigation focus.
+Built with Next.js 15, React 19, and Tailwind CSS v4, it features a fluid, keyboard-optimized interface with gorgeous dark-mode aesthetics.
 
-## Setup Instructions
+---
 
-1. Clone or download this repository.
-2. Ensure you have Node 18+ installed.
-3. Install dependencies:
+## ✨ Core Features
+
+### 🧠 Deep Research AI Agent (V2)
+The platform is augmented with a powerful Google Gemini pipeline that automatically researches companies for you. 
+- **Live Scraping Enrichment:** Simply click "Enrich" on any company block to crawl their website, search the latest Google news for funding/product launches, and identify competitors in real-time.
+- **Founder Snapshot:** Automatically extracts the names, roles, and backgrounds of the startup's founding team directly from the web and internal LLM knowledge.
+- **Auto-Generate Deal Memo:** Click the "Draft Deal Memo" button to instantly synthesize all signals, bull/bear cases, and your personal analyst notes into a perfectly formatted, 3-paragraph "Invest vs. Pass" recommendation ready for the Investment Committee.
+- **Contextual AI Chat:** Chat directly with the AI about the company. The chat is strictly tethered to the scraped context to eliminate hallucinations.
+
+### 💼 Pipeline & Discovery
+- **Company Discovery**: Search and filter a robust table of companies powered by `@tanstack/react-table`.
+- **Keyboard Optimization**: Global `Cmd+K` command menu to frictionlessly navigate between companies, lists, and settings.
+- **Local Persistence**: Add your own scratchpad analyst notes and save companies to personalized "Lists" which sync cleanly to your local browser storage.
+- **Exporting**: Export your curated lists of startup matches directly to CSV or JSON formats.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15 App Router](https://nextjs.org/)
+- **UI & Styling**: [React 19](https://react.dev/), [Tailwind CSS v4](https://tailwindcss.com/)
+- **Components**: [shadcn/ui](https://ui.shadcn.com/) + Lucide Icons
+- **AI & NLP**: [Google Generative AI](https://ai.google.dev/) + `@ai-sdk/google`
+- **Data Gathering**: `cheerio` + `googlethis`
+
+---
+
+## 🚀 Quick Start (Local Setup)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/StealthPanther/vc-intelligence.git
+   cd vc-intel
+   ```
+
+2. **Install dependencies**
+   Ensure you have Node 18+ installed.
    ```bash
    npm install
    ```
-4. Copy the environment variables:
+
+3. **Configure Environment Variables**
+   Rename the example block.
    ```bash
    cp .env.local.example .env.local
    ```
-5. Add your Grok/Gemini AI API Key to `.env.local` to enable Live Scraping Enrichment:
+   Open `.env.local` and add your Gemini API Key to enable the Live Web Scraping and Deal Memo features:
+   ```env
+   AI_API_KEY=your_gemini_api_key_here
    ```
-   AI_API_KEY=your_key_here
-   ```
-6. Run the local development server:
+   *(Note: If no API key is provided, the app will gracefully fall back to rich MVP mock data so you can still test the UI!)*
+
+4. **Run the local development server**
    ```bash
    npm run dev
    ```
+   Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
 
-## Tech Stack
-- Next.js 15 (App Router)
-- React 19
-- Tailwind CSS v4 & shadcn/ui
-- @tanstack/react-table
-- @google/generative-ai
-- cheerio
-- json2csv
+---
 
-## Screenshots
+## ☁️ Deployment (Vercel)
 
-*Add screenshots here*
+This project is highly optimized to run perfectly on Vercel's serverless edge infrastructure.
+1. Create a new project in your Vercel dashboard.
+2. Select this GitHub repository.
+3. Make sure the Framework Preset is set to **Next.js**.
+4. In the Environment Variables dropdown, add `AI_API_KEY` and your production Gemini key.
+5. Click **Deploy**.
+
+---
+
+## 🛡️ Best Practices & Design
+- **Graceful Degradation:** All complex asynchronous AI endpoints (`/api/enrich`, `/api/chat`, `/api/memo`) are protected by heavy `try/catch` logic and timeout safety mechanisms.
+- **Aesthetic First:** The data visualizations draw inspiration from Dribbble's finest B2B dashboard paradigms, utilizing glassmorphism, animated transitions, and carefully calibrated typography (Inter font).
+
+## 📄 License
+This project is open-sourced under the MIT License.

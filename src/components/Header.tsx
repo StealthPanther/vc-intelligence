@@ -113,13 +113,13 @@ function HeaderContent() {
             </div>
 
             <div className="flex-1 flex items-center justify-center px-2 md:px-8">
-                <div className="relative w-full max-w-md flex items-center">
+                <div className="relative w-full md:w-[300px] lg:w-[400px] flex items-center">
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                         id="global-search"
                         type="search"
                         placeholder="Search companies... (Cmd+K)"
-                        className="w-full bg-muted/50 pl-9 pr-12 md:w-[300px] lg:w-[400px]"
+                        className="w-full bg-muted/50 pl-9 pr-12"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />

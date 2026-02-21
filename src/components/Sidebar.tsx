@@ -41,7 +41,7 @@ export function Sidebar({ className }: { className?: string }) {
                 })}
             </nav>
             <div className="p-4 border-t text-xs text-muted-foreground text-center">
-                &copy; Vibe Coding
+                &copy; VC Intel 2026
             </div>
         </aside>
     );
