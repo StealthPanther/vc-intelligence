@@ -15,11 +15,11 @@ export function useLocalCompanies() {
 
     useEffect(() => {
         try {
-            const stored = localStorage.getItem("vc-intel-companies");
+            const stored = localStorage.getItem("vc-intel-companies-v2");
             if (stored) {
                 setCompanies(JSON.parse(stored));
             } else {
-                localStorage.setItem("vc-intel-companies", JSON.stringify(mockCompanies));
+                localStorage.setItem("vc-intel-companies-v2", JSON.stringify(mockCompanies));
                 setCompanies(mockCompanies);
             }
         } catch (e) {
@@ -33,7 +33,7 @@ export function useLocalCompanies() {
         const newCompanies = companies.map(c => c.id === updated.id ? updated : c);
         setCompanies(newCompanies);
         try {
-            localStorage.setItem("vc-intel-companies", JSON.stringify(newCompanies));
+            localStorage.setItem("vc-intel-companies-v2", JSON.stringify(newCompanies));
         } catch (e) {
             console.error("Failed to save to localStorage:", e);
         }
@@ -54,12 +54,12 @@ export function useLocalLists() {
 
     useEffect(() => {
         try {
-            const stored = localStorage.getItem("vc-intel-lists");
+            const stored = localStorage.getItem("vc-intel-lists-v2");
             if (stored) {
                 setLists(JSON.parse(stored));
             } else {
                 const defaultList: SavedList = { id: "1", name: "Thesis Matches", companyIds: ["1", "3", "7"] };
-                localStorage.setItem("vc-intel-lists", JSON.stringify([defaultList]));
+                localStorage.setItem("vc-intel-lists-v2", JSON.stringify([defaultList]));
                 setLists([defaultList]);
             }
         } catch (e) {
@@ -72,7 +72,7 @@ export function useLocalLists() {
     const saveLists = (newLists: SavedList[]) => {
         setLists(newLists);
         try {
-            localStorage.setItem("vc-intel-lists", JSON.stringify(newLists));
+            localStorage.setItem("vc-intel-lists-v2", JSON.stringify(newLists));
         } catch (e) {
             console.error(e);
         }

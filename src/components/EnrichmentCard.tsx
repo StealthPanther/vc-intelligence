@@ -5,8 +5,9 @@ import { Company } from "@/lib/mock-data";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Loader2, CheckCircle2, ChevronRight, Globe } from "lucide-react";
+import { Sparkles, Loader2, CheckCircle2, ChevronRight, Globe, User } from "lucide-react";
 import { toast } from "sonner";
+import { CompanyChat } from "./CompanyChat";
 
 interface EnrichmentCardProps {
     company: Company;
@@ -115,6 +116,28 @@ export function EnrichmentCard({ company, onUpdate }: EnrichmentCardProps) {
                             </div>
                         </div>
 
+                        {enrichment.founders && enrichment.founders.length > 0 && (
+                            <div>
+                                <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-3">Founder Snapshot</h4>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    {enrichment.founders.map((founder: { name: string; role: string; background: string }, i: number) => (
+                                        <div key={i} className="flex flex-col gap-1 p-3 rounded-lg border border-border/60 bg-muted/20">
+                                            <div className="flex items-center gap-2">
+                                                <div className="bg-primary/10 p-1.5 rounded-full text-primary">
+                                                    <User className="h-4 w-4" />
+                                                </div>
+                                                <span className="font-semibold">{founder.name}</span>
+                                                <Badge variant="outline" className="text-xs py-0 h-5 bg-background">{founder.role}</Badge>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground pl-[34px] leading-relaxed">
+                                                {founder.background}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         <div>
                             <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-2">Keywords</h4>
                             <div className="flex flex-wrap gap-2">
@@ -137,6 +160,8 @@ export function EnrichmentCard({ company, onUpdate }: EnrichmentCardProps) {
                                 ))}
                             </div>
                         </div>
+
+                        <CompanyChat company={company} />
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">

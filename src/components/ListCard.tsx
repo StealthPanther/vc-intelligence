@@ -4,7 +4,7 @@ import { SavedList } from "@/lib/storage";
 import { Company } from "@/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Trash, FileSpreadsheet, Plus, FileJson, Download, FileText } from "lucide-react";
+import { Trash, FileSpreadsheet, Plus, FileJson } from "lucide-react";
 import { toast } from "sonner";
 import { Parser } from "json2csv";
 

@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { BookmarkPlus, ExternalLink, MapPin, Building2, TrendingUp, Sparkles, User } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { BookmarkPlus, ExternalLink, MapPin, Building2, TrendingUp, Sparkles, FileText, Loader2, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { EnrichmentCard } from "@/components/EnrichmentCard";
 
@@ -21,6 +22,10 @@ export function CompanyProfile({ company, onUpdate }: CompanyProfileProps) {
     const [isSaving, setIsSaving] = useState(false);
     const [activeTab, setActiveTab] = useState("overview");
 
+    const [memo, setMemo] = useState("");
+    const [isDraftingMemo, setIsDraftingMemo] = useState(false);
+    const [isMemoOpen, setIsMemoOpen] = useState(false);
+
     const handleSaveNotes = () => {
         setIsSaving(true);
         setTimeout(() => {
@@ -28,6 +33,39 @@ export function CompanyProfile({ company, onUpdate }: CompanyProfileProps) {
             setIsSaving(false);
             toast.success("Notes saved successfully");
         }, 400);
+    };
+
+    const handleDraftMemo = async () => {
+        if (!company.enrichment) {
+            toast.error("Company not enriched yet. Please run enrichment first.");
+            return;
+        }
+        setIsDraftingMemo(true);
+        try {
+            const response = await fetch("/api/memo", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    companyName: company.name,
+                    website: company.website,
+                    enrichment: company.enrichment,
+                    notes: notes
+                }),
+            });
+            if (!response.ok) throw new Error("API failed");
+            const data = await response.json();
+            setMemo(data.memo);
+        } catch (error) {
+            toast.error("Failed to draft deal memo");
+            console.error(error);
+        } finally {
+            setIsDraftingMemo(false);
+        }
+    };
+
+    const copyMemo = () => {
+        navigator.clipboard.writeText(memo);
+        toast.success("Memo copied to clipboard");
     };
 
     return (
@@ -64,11 +102,57 @@ export function CompanyProfile({ company, onUpdate }: CompanyProfileProps) {
                         </div>
                     </div>
 
-                    <div className="flex flex-row md:flex-col gap-3 min-w-[140px]">
+                    <div className="flex flex-col gap-3 min-w-[200px]">
                         <Button className="w-full shadow-sm">
                             <BookmarkPlus className="mr-2 h-4 w-4" />
                             Save to List
                         </Button>
+                        <Dialog open={isMemoOpen} onOpenChange={setIsMemoOpen}>
+                            <DialogTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className="w-full bg-purple-50 text-purple-700 hover:bg-purple-100 dark:bg-purple-900/40 dark:text-purple-300 dark:hover:bg-purple-900/60 transition-colors border-purple-200 dark:border-purple-800"
+                                    onClick={() => {
+                                        if (!company.enrichment) {
+                                            toast.error("Please enrich the company first.");
+                                        } else if (!memo) {
+                                            handleDraftMemo();
+                                        }
+                                    }}
+                                >
+                                    <FileText className="mr-2 h-4 w-4 text-purple-500" />
+                                    Draft Deal Memo
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+                                <DialogHeader>
+                                    <DialogTitle>AI Deal Memo for {company.name}</DialogTitle>
+                                    <DialogDescription>
+                                        Auto-generated from enrichment signals and your analyst notes.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                {isDraftingMemo ? (
+                                    <div className="flex flex-col items-center justify-center py-10 space-y-4">
+                                        <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+                                        <p className="text-sm text-muted-foreground">Drafting investment memo...</p>
+                                    </div>
+                                ) : memo ? (
+                                    <div className="space-y-4">
+                                        <div className="whitespace-pre-wrap text-sm leading-relaxed p-4 bg-muted/30 rounded-md border border-border">
+                                            {memo}
+                                        </div>
+                                        <Button onClick={copyMemo} className="w-full">
+                                            <Copy className="mr-2 h-4 w-4" />
+                                            Copy to Clipboard
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <div className="py-10 text-center text-muted-foreground text-sm">
+                                        Must enrich company first.
+                                    </div>
+                                )}
+                            </DialogContent>
+                        </Dialog>
                         <Button
                             variant="secondary"
                             onClick={() => setActiveTab("enrichment")}

@@ -1,0 +1,24 @@
+﻿
+> vc-intel@0.1.0 lint
+> eslint
+
+
+C:\vc intelligence\vc-intel\src\app\api\chat\route.ts
+  21:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\vc intelligence\vc-intel\src\app\api\enrich\route.ts
+  8:26  warning  'companyId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\vc intelligence\vc-intel\src\components\CompanyChat.tsx
+  52:18  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\vc intelligence\vc-intel\src\components\EnrichmentCard.tsx
+  123:72  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\vc intelligence\vc-intel\src\components\ListCard.tsx
+  7:50  warning  'Download' is defined but never used  @typescript-eslint/no-unused-vars
+  7:60  warning  'FileText' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 7 problems (3 errors, 4 warnings)
+

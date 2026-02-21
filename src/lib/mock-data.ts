@@ -13,6 +13,7 @@ export interface Company {
     bullCase?: string;
     bearCase?: string;
     competitors?: string[];
+    founders?: { name: string; role: string; background: string }[];
     keywords: string[];
     signals: string[];
     sources: { url: string; timestamp: string }[];
@@ -20,12 +21,12 @@ export interface Company {
 }
 
 export const mockCompanies: Company[] = [
-  { id: "1", name: "Langfuse", website: "https://langfuse.com", desc: "Open source LLM engineering platform. Traces, evals, prompt management and metrics.", sector: "AI/ML", stage: "Seed", location: "Berlin" },
-  { id: "2", name: "Midday", website: "https://midday.ai", desc: "The operating system for modern businesses. Invoicing, expenses, and financial overview.", sector: "FinTech", stage: "Seed", location: "Stockholm" },
-  { id: "3", name: "Dub", website: "https://dub.co", desc: "Open-source link management infrastructure for modern marketing teams.", sector: "Marketing", stage: "Seed", location: "San Francisco" },
-  { id: "4", name: "Mintlify", website: "https://mintlify.com", desc: "Continuous documentation platform that helps developers build beautiful docs out of the box.", sector: "Developer Tools", stage: "Series A", location: "San Francisco" },
-  { id: "5", name: "Trigger.dev", website: "https://trigger.dev", desc: "The open source background jobs framework for Next.js and TypeScript.", sector: "Developer Tools", stage: "Seed", location: "London" },
-  { id: "6", name: "OpenPipe", website: "https://openpipe.ai", desc: "Helps developers train and deploy fine-tuned LLMs that match GPT-4 performance at a fraction of the cost.", sector: "AI/ML", stage: "Seed", location: "Seattle" },
-  { id: "7", name: "Cal.com", website: "https://cal.com", desc: "Open-source scheduling infrastructure for everyone.", sector: "Productivity", stage: "Series A", location: "Global" },
-  { id: "8", name: "Resend", website: "https://resend.com", desc: "Email API for developers. The best way to reach humans instead of spam folders.", sector: "Developer Tools", stage: "Series A", location: "San Francisco" }
+  { id: "1", name: "Hatchet", website: "https://hatchet.run", desc: "A distributed, fault-tolerant task queue that replaces Celery and RabbitMQ.", sector: "Developer Tools", stage: "Seed", location: "San Francisco" },
+  { id: "2", name: "Exa", website: "https://exa.ai", desc: "The search engine designed specifically for AI models and LLMs to query the web.", sector: "AI/ML", stage: "Series A", location: "San Francisco" },
+  { id: "3", name: "Braintrust", website: "https://braintrust.dev", desc: "Enterprise-grade evaluations, prompt playground, and data management for AI.", sector: "AI/ML", stage: "Seed", location: "San Francisco" },
+  { id: "4", name: "Modal", website: "https://modal.com", desc: "Serverless cloud platform for AI developers to run code in the cloud without infrastructure pain.", sector: "Cloud/AI", stage: "Series A", location: "New York" },
+  { id: "5", name: "Inkeep", website: "https://inkeep.com", desc: "AI-powered search and support assistant specifically for developer documentation.", sector: "Developer Tools", stage: "Seed", location: "Remote" },
+  { id: "6", name: "Pydantic", website: "https://pydantic.run", desc: "The company behind the popular Pydantic Python library, building Logfire for observability.", sector: "Developer Tools", stage: "Seed", location: "Remote" },
+  { id: "7", name: "Anysphere (Cursor)", website: "https://cursor.com", desc: "The AI-first code editor built to make engineers much faster.", sector: "DevTools/AI", stage: "Series A", location: "San Francisco" },
+  { id: "8", name: "Langfuse", website: "https://langfuse.com", desc: "Open source LLM engineering platform. Traces, evals, prompt management and metrics.", sector: "AI/ML", stage: "Seed", location: "Berlin" }
 ];

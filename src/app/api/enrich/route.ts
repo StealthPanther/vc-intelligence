@@ -5,7 +5,7 @@ import google from "googlethis";
 
 export async function POST(request: Request) {
     try {
-        const { website, companyId, companyName } = await request.json();
+        const { website, companyName } = await request.json();
 
         if (!website) {
             return NextResponse.json({ error: "Website URL is required" }, { status: 400 });
@@ -60,10 +60,25 @@ export async function POST(request: Request) {
             }
         }
 
-        const [text, newsResults, competitorResults] = await Promise.all([
+        const fetchFounders = async () => {
+            try {
+                const response = await google.search(`${nameToSearch} founders CEO CTO LinkedIn`, {
+                    page: 0,
+                    safe: false,
+                    parse_ads: false
+                });
+                return response.results.slice(0, 3).map(r => `${r.title}: ${r.description}`).join("\n");
+            } catch (e) {
+                console.error("Google Founders error:", e);
+                return "No founder data found from Google.";
+            }
+        };
+
+        const [text, newsResults, competitorResults, founderResults] = await Promise.all([
             fetchWebsite(),
             fetchNews(),
-            fetchCompetitors()
+            fetchCompetitors(),
+            fetchFounders()
         ]);
 
         // 2. Call AI API
@@ -91,6 +106,11 @@ export async function POST(request: Request) {
     ---
     ${competitorResults}
     ---
+
+    SOURCE 4: Google Search Results for Founders
+    ---
+    ${founderResults || "No search results available. You must rely on your internal pre-trained knowledge to identify the founders of this specific company."}
+    ---
     
     Extract and return a JSON object with EXACTLY this structure:
     {
@@ -99,6 +119,7 @@ export async function POST(request: Request) {
       "bullCase": "A 2-3 sentence paragraph arguing why this startup could be a massive success. Use aggressive VC language (e.g. 'Strong tailwinds in...', 'Defensible moat via...').",
       "bearCase": "A 2-3 sentence paragraph arguing the biggest risks facing this company (e.g. intense competition, execution risk, scaling issues).",
       "competitors": ["Competitor 1", "Competitor 2", "Competitor 3"],
+      "founders": [{"name": "Founder Name", "role": "CEO/CTO/etc.", "background": "Ex-Stripe Engineeer, 10 years experience... Include current or past prominent roles."}],
       "keywords": ["tag1", "tag2", "tag3", "tag4", "tag5"],
       "signals": [
         "Funding / M&A: <Extract any exact funding amounts, valuations, or acquisitions mentioned in the news. Example: 'Acquired by ClickHouse in August 2024' or 'Raised $15M Series A'>",
@@ -109,7 +130,9 @@ export async function POST(request: Request) {
       ],
       "sources": [{"url": "${website}", "timestamp": "${new Date().toISOString()}"}, {"url": "Google Search Context", "timestamp": "${new Date().toISOString()}"}]
     }
-    CRITICAL INSTRUCTION: For the 'signals' array, you must extract 4 to 5 highly specific, data-rich facts from the news and website (e.g. exact dollar amounts, specific company names, exact feature launches). Do NOT make up generic phrases. If a category data is missing, omit that string entirely from the array rather than saying 'Not detected'. The array should only contain real, verified signals. Make sure the response is strictly valid JSON without markdown wrapping.
+    CRITICAL INSTRUCTION: For the 'signals' array, you must extract 4 to 5 highly specific, data-rich facts from the news and website (e.g. exact dollar amounts, specific company names, exact feature launches). Do NOT make up generic phrases. If a category data is missing, omit that string entirely from the array rather than saying 'Not detected'. The array should only contain real, verified signals.
+    CRITICAL INSTRUCTION: For 'founders', if the search results are empty, use your vast internal knowledge base to identify the true founders of ${nameToSearch}. You know who founded early-stage startups like Langfuse, Cursor, Exa, Hatchet, etc. You MUST return at least 1 founder if you know them. If you are 100% absolutely unsure and the website text does not mention them, return an empty array [].
+    Make sure the response is strictly valid JSON without markdown wrapping.
     `;
 
         if (apiKey && apiKey !== "your_api_key_here") {
@@ -145,6 +168,10 @@ export async function POST(request: Request) {
                 bullCase: "Strong execution in a rapidly growing market segment with clear demand for automated infrastructure provisioning. The team has demonstrated early traction with enterprise clients.",
                 bearCase: "Intense competition from established cloud providers rolling out similar native features. Execution risk remains high as they attempt to scale their go-to-market motion.",
                 competitors: ["AWS Native", "Google Cloud Functions", "Vercel Functions"],
+                founders: [
+                    { name: "Jane Doe", role: "CEO", background: "Ex-Stripe Engineer & YC Alumni" },
+                    { name: "John Smith", role: "CTO", background: "Former VP Eng at Vercel" }
+                ],
                 keywords: ["B2B", "SaaS", "Infrastructure", "Innovation"],
                 signals: [
                     "Hiring Status: We detected 3 open roles on their careers page.",
