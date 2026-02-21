@@ -1,6 +1,6 @@
 # 🚀 VC Intelligence Interface
 
-![App Banner](https://via.placeholder.com/1000x400/1e1e24/6366f1?text=VC+Intelligence+Interface)
+Live:https://vcintel.vercel.app/
 
 **VC Intelligence** is a premium, modern SaaS dashboard heavily inspired by bespoke internal tools used by top-tier Venture Capital firms. It allows associates to discover, track, and deeply enrich startup lead profiles using autonomous AI agents.
 
